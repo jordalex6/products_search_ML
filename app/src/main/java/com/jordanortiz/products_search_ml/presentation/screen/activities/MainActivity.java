@@ -16,6 +16,7 @@ import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseActivity;
 import com.jordanortiz.products_search_ml.core.presentation.ui.OnStartFragmentListener;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeFragment;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,11 +69,11 @@ public class MainActivity extends BaseActivity
     public void initHomeFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack(HomeFragment.TAG)
+                .addToBackStack(ProductsListFragment.TAG)
                 .replace(
                         R.id.frame_container,
-                        HomeFragment.newInstance(),
-                        HomeFragment.TAG
+                        ProductsListFragment.newInstance(1),
+                        ProductsListFragment.TAG
                 )
                 .commit();
     }

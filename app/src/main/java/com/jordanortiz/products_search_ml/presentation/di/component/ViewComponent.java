@@ -5,6 +5,7 @@ import com.jordanortiz.products_search_ml.presentation.di.module.ViewModule;
 import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeFragment;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListFragment;
 
 import dagger.Component;
 
@@ -20,5 +21,6 @@ public interface ViewComponent extends ActivityComponent{
       void inject(MainActivity activity);
 
       void inject(HomeFragment fragment);
+      void inject(ProductsListFragment fragment);
 
 }

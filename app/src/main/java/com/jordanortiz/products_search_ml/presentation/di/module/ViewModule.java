@@ -10,6 +10,9 @@ import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeMvpPresenter;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeMvpView;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomePresenter;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListMvpPresenter;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListMvpView;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListPresenter;
 
 
 import java.util.ArrayList;
@@ -31,15 +34,6 @@ public class ViewModule {
         return mActivity;
     }
 
-
-
-/*    @Provides
-    @PerActivity
-    MainPollsterMvpPresenter<MainPollsterMvpView> provideMainPollsterPresenter(
-            MainPollsterPresenter<MainPollsterMvpView> presenter) {
-        return presenter;
-    }*/
-
     /* startBlock: Home fragment */
     @Provides
     HomeMvpPresenter<HomeMvpView> provideHomePresenter(
@@ -48,6 +42,14 @@ public class ViewModule {
     }
 
     /* endBlock: Home fragment */
+
+    /* startBlock: Products List fragment */
+    @Provides
+    ProductsListMvpPresenter<ProductsListMvpView> provideProductsListPresenter(
+            ProductsListPresenter<ProductsListMvpView> presenter) {
+        return presenter;
+    }
+    /* endBlock: Products List fragment */
 
 
 
