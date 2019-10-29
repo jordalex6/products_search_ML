@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Networking Error -->
+    <string name="error_400">Ocurrio un error. Por favor, intente más tarde.</string>
+    <string name="error_404">Error de sistema. Por favor, intente más tarde.</string>
+    <string name="error_500">Hubo un problema al intentar conectar con el servidor. Verifique su conexión a Internet.</string>
+    <string name="network_error">Error intentando conectar con servidor. Verifique su conexión a internet</string>
+    <string name="network_timeout_408">Error intentando conectar con servidor. Conexión a internet deficiente</string>
+    <string name="api_retry_error">Vuelva a intentarlo!</string>
+    <string name="api_default_error">¡Algo salio mal!\n Intentar nuevamente.</string>
+    <string name="some_error">Ocurrio un error!</string>
+    <string name="connection_error">¡Se perdió la comunicación con el servidor. Verificar conexión a Internet!</string>
+</resources>
