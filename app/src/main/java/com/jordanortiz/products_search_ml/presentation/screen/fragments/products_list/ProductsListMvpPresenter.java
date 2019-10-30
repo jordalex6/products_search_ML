@@ -4,4 +4,6 @@ import com.jordanortiz.products_search_ml.core.presentation.mvp.presenter.MvpBas
 
 public interface ProductsListMvpPresenter <V extends ProductsListMvpView>
         extends MvpBasePresenter<V> {
+
+    void applyQueryOfProduct(String query);
 }

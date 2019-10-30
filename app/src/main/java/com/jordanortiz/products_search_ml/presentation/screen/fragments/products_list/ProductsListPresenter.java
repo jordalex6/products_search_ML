@@ -12,4 +12,15 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
     @Inject
     public ProductsListPresenter() {
     }
+
+    @Override
+    public void applyQueryOfProduct(String query) {
+        if(isQueryEmpty(query)){
+            getMvpView().showMsgQueryIsEmpty();
+        }
+    }
+
+    boolean isQueryEmpty(String query) {
+        return query.isEmpty();
+    }
 }

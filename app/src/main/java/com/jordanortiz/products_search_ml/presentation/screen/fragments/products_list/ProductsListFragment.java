@@ -23,10 +23,10 @@ import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
 import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
-import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.dummy.DummyContent;
-import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.dummy.DummyContent.DummyItem;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,8 +42,9 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     // TODO: Customize parameter argument names
     public static final String TAG = ProductsListFragment.class.getSimpleName();
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
+    private List<ProductModel> productsList;
 
 
     @Inject
@@ -53,6 +54,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
      * fragment (e.g. upon screen orientation changes).
      */
     public ProductsListFragment() {
+        productsList =  new ArrayList<>();
     }
 
     // TODO: Customize parameter initialization
@@ -95,7 +97,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ProductsListRecyclerViewAdapter(DummyContent.ITEMS, this));
+            recyclerView.setAdapter(new ProductsListRecyclerViewAdapter(productsList, this));
         }
         return view;
     }
@@ -122,11 +124,11 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
         searchView.setQueryHint("Buscar productos");
         searchView.setSubmitButtonEnabled(Boolean.TRUE);
 
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.e(TAG, "onQueryTextSubmit: query -> " + query );
+                mPresenter.applyQueryOfProduct(query);
                 return false;
             }
 
@@ -153,9 +155,13 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     * Callback to listener{@link ProductsListRecyclerViewAdapter.ProductsListAdapterListener}
     * */
     @Override
-    public void onProductSelected(DummyItem dummy) {
-        Log.d(TAG, "onProductSelected: " + dummy.toString());
+    public void onProductSelected(ProductModel product) {
+        Log.d(TAG, "onProductSelected: " + product.toString());
     }
 
 
+    @Override
+    public void showMsgQueryIsEmpty() {
+        this.showMessageToastyInfo(getBaseActivity().getString(R.string.msg_query_empty));
+    }
 }

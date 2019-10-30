@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ProductsSearchML</string>
+    <string name="msg_query_empty">Para continuar ingrese algún valor</string>
 </resources>
