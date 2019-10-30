@@ -2,19 +2,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:background="@color/secondaryLightColor">
 
-    <TextView
-        android:id="@+id/item_number"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_weight="0.3"
+        android:layout_gravity="center">
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/item_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/smartphone_muestra"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_weight="0.7"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Motorola G7 Power Dual Sim 64 Gb Marine Blue"
+            android:textSize="@dimen/title_product_item"/>
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="$ 23990"
+            android:textSize="@dimen/price_product_item"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/item_installments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Hasta 18 cuotas sin interés"
+            android:textSize="@dimen/text_secondary_product_item"
+            android:textColor="@color/secondaryTextColor"/>
+
+        <TextView
+            android:id="@+id/item_shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Envío gratis"
+            android:textSize="@dimen/text_secondary_product_item"
+            android:textColor="@color/secondaryTextColor"
+            />
+
+    </LinearLayout>
 </LinearLayout>

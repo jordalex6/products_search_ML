@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="title_product_item">16sp</dimen>
+    <dimen name="price_product_item">18sp</dimen>
+    <dimen name="text_secondary_product_item">13sp</dimen>
 </resources>
