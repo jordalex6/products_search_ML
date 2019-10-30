@@ -3,8 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:padding="10dp"
     android:weightSum="1"
-    android:background="@color/secondaryLightColor">
+    android:background="@drawable/background_item_product">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -18,6 +19,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerInside"
             android:src="@drawable/smartphone_muestra"/>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="0dp"
@@ -67,9 +69,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
-            android:layout_marginBottom="10dp"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:text="Envío gratis"
+            android:text="@string/text_free_shipping"
             android:textSize="@dimen/text_secondary_product_item"
             android:textColor="@color/secondaryTextColor"
             />

@@ -32,8 +32,8 @@ ext {
     rxAndroidVersion = '2.1.0'
     rx2AndroidNetworking = '1.0.2'
     butterKnifeVersion = '10.1.0'
-    glideVersion = '4.9.0'
-    glideCompileVersion = '4.9.0'
+    glideVersion = '4.10.0'
+    glideCompileVersion = '4.10.0'
 
 }
 
@@ -68,7 +68,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     //    Glide
-    implementation("com.github.bumptech.glide:glide:${glideVersion}") {
+    implementation ("com.github.bumptech.glide:glide:${glideVersion}"){
         exclude group: "com.android.support"
     }
     annotationProcessor "com.github.bumptech.glide:compiler:${glideCompileVersion}"

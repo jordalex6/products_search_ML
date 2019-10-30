@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -39,30 +41,28 @@ import butterknife.ButterKnife;
 public class ProductsListFragment extends BaseFragment implements ProductsListMvpView,
         ProductsListRecyclerViewAdapter.ProductsListAdapterListener {
 
-    // TODO: Customize parameter argument names
     public static final String TAG = ProductsListFragment.class.getSimpleName();
-    private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String CATEGORY = "category";
 
-    private int mColumnCount = 1;
-    private List<ProductModel> productsList;
-
+    @BindView(R.id.rv_products)
+    RecyclerView rvProducts;
 
     @Inject
     ProductsListMvpPresenter<ProductsListMvpView> mPresenter;
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
+    @Inject
+    ProductsListRecyclerViewAdapter mRecyclerViewAdapter;
+    @Inject
+    LinearLayoutManager mLayoutManager;
+
     public ProductsListFragment() {
-        productsList =  new ArrayList<>();
+
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ProductsListFragment newInstance(int columnCount) {
+    public static ProductsListFragment newInstance(String category) {
         ProductsListFragment fragment = new ProductsListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(CATEGORY, category);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,9 +71,6 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -85,26 +82,20 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
         if (component != null) {
             component.inject(this);
             setUnBinder(ButterKnife.bind(this, view));
+            mRecyclerViewAdapter.setCallbackListener(this);
             mPresenter.onAttach(this);
         }
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new ProductsListRecyclerViewAdapter(productsList, this));
-        }
         return view;
     }
 
     @Override
     protected void setUp(View view) {
-
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rvProducts.setLayoutManager(mLayoutManager);
+        rvProducts.setItemAnimator(new DefaultItemAnimator());
+        rvProducts.setAdapter(mRecyclerViewAdapter);
+        mPresenter.onViewPrepared();
     }
 
     @Override
@@ -163,5 +154,10 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     @Override
     public void showMsgQueryIsEmpty() {
         this.showMessageToastyInfo(getBaseActivity().getString(R.string.msg_query_empty));
+    }
+
+    @Override
+    public void showProductList(List<ProductModel> productList) {
+        mRecyclerViewAdapter.addItems(productList);
     }
 }

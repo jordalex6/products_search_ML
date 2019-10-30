@@ -2,28 +2,36 @@ package com.jordanortiz.products_search_ml.presentation.screen.fragments.product
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jordanortiz.products_search_ml.R;
-import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.dummy.DummyContent.DummyItem;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}
+ * {@link RecyclerView.Adapter} that can display a {@link com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel}
  */
 public class ProductsListRecyclerViewAdapter extends
         RecyclerView.Adapter<ProductsListRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<ProductModel> mValues;
     private ProductsListAdapterListener mListener;
+    private Context mContext;
 
-    public ProductsListRecyclerViewAdapter(List<DummyItem> items, ProductsListAdapterListener listener) {
+    public ProductsListRecyclerViewAdapter(List<ProductModel> items, Context context) {
         mValues = items;
-        mListener = listener;
+        mContext = context;
     }
 
     @Override
@@ -35,9 +43,38 @@ public class ProductsListRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        ProductModel mItem = mValues.get(position);
+
+//        setup product title
+        holder.mItemTitle.setText(mItem.getTitle());
+//        setup product price
+        holder.mItemPrice.setText(String.format("$ %s", mItem.getPrice()));
+//        setup product installments
+        if(mItem.getProductInstallments().getRate() > 0){
+            holder.mItemInstallments.setText(String.format(
+                    "Hasta %s cuotas sin interés",
+                    mItem.getProductInstallments().getQuantity())
+            );
+        }else{
+            holder.mItemInstallments.setVisibility(View.GONE);
+        }
+//        setup product shipping
+        if(!mItem.isShipping())
+            holder.mItemShipping.setVisibility(View.GONE);
+//        setup product thumbnail
+        if(mItem.getThumbnailImg() != null){
+            Glide.with(mContext)
+                    .load(mItem.getThumbnailImg())
+                    .placeholder(R.drawable.smartphone_muestra)
+                    .fitCenter()
+                    .into(holder.mThumbnailItem);
+        }
+
+
+    }
+
+    public void setCallbackListener(ProductsListAdapterListener listener){
+        mListener = listener;
     }
 
     @Override
@@ -45,22 +82,38 @@ public class ProductsListRecyclerViewAdapter extends
         return mValues.size();
     }
 
+    public void addItems(List<ProductModel> productList) {
+        if (getItemCount() > 0)
+            mValues.clear();
+
+        mValues.addAll(productList);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        final View mView;
+
+        @BindView(R.id.item_thumbnail)
+        ImageView mThumbnailItem;
+        @BindView(R.id.item_title)
+        TextView mItemTitle;
+        @BindView(R.id.item_price)
+        TextView mItemPrice;
+        @BindView(R.id.item_installments)
+        TextView mItemInstallments;
+        @BindView(R.id.item_shipping)
+        TextView mItemShipping;
+
 
         public ViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // send selected alliance in callback
+                    // send selected product in callback
                     mListener.onProductSelected(mValues.get(getAdapterPosition()));
                 }
             });
@@ -68,11 +121,11 @@ public class ProductsListRecyclerViewAdapter extends
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + "" + "'";
         }
     }
 
     public interface ProductsListAdapterListener {
-        void onProductSelected(DummyItem dummy);
+        void onProductSelected(ProductModel product);
     }
 }

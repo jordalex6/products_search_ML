@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".presentation.screen.fragments.products_list.ProductsListFragment"
-    tools:listitem="@layout/fragment_product_item" />
+    android:background="@color/secondaryLightColor">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_products"
+        android:name="com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:context=".presentation.screen.fragments.products_list.ProductsListFragment"
+        tools:listitem="@layout/fragment_product_item" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
