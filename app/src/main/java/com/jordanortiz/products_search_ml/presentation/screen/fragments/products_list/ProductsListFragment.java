@@ -1,8 +1,10 @@
 package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,15 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
+import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.dummy.DummyContent;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.dummy.DummyContent.DummyItem;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -94,6 +102,40 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
 
     @Override
     protected void setUp(View view) {
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Create menu
+        setHasOptionsMenu(true);
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate menu
+        ((MainActivity)getActivity()).getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("Buscar productos");
+        searchView.setSubmitButtonEnabled(Boolean.TRUE);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.e(TAG, "onQueryTextSubmit: query -> " + query );
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.e(TAG, "onQueryTextChange: partial query -> " + newText );
+                return false;
+            }
+        });
 
     }
 
