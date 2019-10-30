@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity
                 .addToBackStack(ProductsListFragment.TAG)
                 .replace(
                         R.id.frame_container,
-                        ProductsListFragment.newInstance(1),
+                        ProductsListFragment.newInstance("MLA1055"), /* Tecnology */
                         ProductsListFragment.TAG
                 )
                 .commit();
