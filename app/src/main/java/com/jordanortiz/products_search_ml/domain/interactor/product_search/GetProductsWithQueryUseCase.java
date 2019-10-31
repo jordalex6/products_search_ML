@@ -2,19 +2,20 @@ package com.jordanortiz.products_search_ml.domain.interactor.product_search;
 
 import com.jordanortiz.products_search_ml.domain.executor.PostExecutionThread;
 import com.jordanortiz.products_search_ml.domain.executor.ThreadExecutor;
-import com.jordanortiz.products_search_ml.domain.interactor.base.CompletableUseCase;
+import com.jordanortiz.products_search_ml.domain.interactor.base.SingleUseCase;
+import com.jordanortiz.products_search_ml.domain.model.product.ProductsPagingEntity;
 import com.jordanortiz.products_search_ml.domain.repository.DataManager;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
+import io.reactivex.Single;
 
-public class PushProductQueryUseCase extends CompletableUseCase<PushProductQueryUseCase.Params> {
+public class GetProductsWithQueryUseCase extends SingleUseCase<ProductsPagingEntity, GetProductsWithQueryUseCase.Params> {
 
     private DataManager dataManager;
 
     @Inject
-    public PushProductQueryUseCase(
+    public GetProductsWithQueryUseCase(
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread,
             DataManager dataManager) {
@@ -23,20 +24,21 @@ public class PushProductQueryUseCase extends CompletableUseCase<PushProductQuery
     }
 
     @Override
-    protected Completable buildUseCaseCompletable(Params params) {
-        return dataManager.pushData();
+    protected Single<ProductsPagingEntity> buildUseCaseSingle(Params params) {
+        return dataManager.getProductsDataWithQuery(params.query);
     }
+
 
     public static final class Params {
 
-        private final String data;
+        private final String query;
 
-        private Params(String data) {
-            this.data = data;
+        private Params(String query) {
+            this.query = query;
         }
 
-        public static Params forCaptureScorpion(String data) {
-            return new Params(data);
+        public static Params forProductsQuery(String query) {
+            return new Params(query);
         }
     }
 }

@@ -34,4 +34,13 @@ public class PagingEntity {
     public void setPrimaryResults(Integer primaryResults) {
         this.primaryResults = primaryResults;
     }
+
+    @Override
+    public String toString() {
+        return "PagingEntity{" +
+                "total=" + total +
+                ", limit=" + limit +
+                ", primaryResults=" + primaryResults +
+                '}';
+    }
 }
