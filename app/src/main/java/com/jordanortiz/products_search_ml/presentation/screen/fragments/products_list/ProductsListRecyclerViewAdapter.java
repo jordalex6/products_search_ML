@@ -50,13 +50,15 @@ public class ProductsListRecyclerViewAdapter extends
 //        setup product price
         holder.mItemPrice.setText(String.format("$ %s", mItem.getPrice()));
 //        setup product installments
-        if(mItem.getProductInstallments().getRate() > 0){
-            holder.mItemInstallments.setText(String.format(
-                    "Hasta %s cuotas sin interés",
-                    mItem.getProductInstallments().getQuantity())
-            );
-        }else{
-            holder.mItemInstallments.setVisibility(View.GONE);
+        if(mItem.getProductInstallments() != null){
+            if(mItem.getProductInstallments().getRate() > 0){
+                holder.mItemInstallments.setText(String.format(
+                        "Hasta %s cuotas sin interés",
+                        mItem.getProductInstallments().getQuantity())
+                );
+            }else{
+                holder.mItemInstallments.setVisibility(View.GONE);
+            }
         }
 //        setup product shipping
         if(!mItem.isShipping())

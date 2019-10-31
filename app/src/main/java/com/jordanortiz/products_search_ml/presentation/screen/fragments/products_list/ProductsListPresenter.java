@@ -6,7 +6,10 @@ import com.jordanortiz.products_search_ml.core.presentation.mvp.presenter.BasePr
 import com.jordanortiz.products_search_ml.domain.interactor.product_search.GetProductsWithQueryUseCase;
 import com.jordanortiz.products_search_ml.domain.model.product.ProductsPagingEntity;
 import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
+import com.jordanortiz.products_search_ml.presentation.mapper.ProductListMapper;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ListPagingModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductInstallmentsModel;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductListModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
 import java.util.ArrayList;
@@ -23,10 +26,12 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
     private static final String TAG = ProductsListPresenter.class.getSimpleName();
 
     private final GetProductsWithQueryUseCase getProductsWithQueryUseCase;
+    private final ProductListMapper productListMapper;
 
     @Inject
-    public ProductsListPresenter(GetProductsWithQueryUseCase getProductsWithQueryUseCase) {
+    public ProductsListPresenter(GetProductsWithQueryUseCase getProductsWithQueryUseCase, ProductListMapper productListMapper) {
         this.getProductsWithQueryUseCase = getProductsWithQueryUseCase;
+        this.productListMapper = productListMapper;
     }
 
 
@@ -46,11 +51,20 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
         }
     }
 
+    private void setUpViewWithDataObtained(ProductListModel productListModel){
+        this.applyListOfProductObtained(productListModel.getProductList());
+        this.applyListOfPagingObtained(productListModel.getPaging());
+    }
+
     private void applyListOfProductObtained(List<ProductModel> productList){
         if(productList.size() > 0)
             getMvpView().showProductList(productList);
 
         // TODO else -> add empty product list
+
+    }
+
+    private void applyListOfPagingObtained(ListPagingModel paging){
 
     }
 
@@ -61,7 +75,7 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
     private void createProductListDummy(){
         List<ProductModel> productModelList = new ArrayList<>();
 
-        ProductModel prod1 = new ProductModel();
+       /* ProductModel prod1 = new ProductModel();
         prod1.setId("MLA821315858");
         prod1.setTitle("Motorola G7 64 Gb Ceramic Black 4 Gb Ram");
         prod1.setPrice(17899);
@@ -87,7 +101,7 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
 
         productModelList.add(prod1);
         productModelList.add(prod2);
-        productModelList.add(prod3);
+        productModelList.add(prod3);*/
 
         this.applyListOfProductObtained(productModelList);
     }
@@ -97,6 +111,9 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
         @Override
         public void onSuccess(ProductsPagingEntity productsPagingEntity) {
             Log.e(TAG, "onSuccess: paging" + productsPagingEntity.getPaging().toString() );
+            ProductsListPresenter.this.setUpViewWithDataObtained(
+                    productListMapper.transformForList(productsPagingEntity)
+            );
         }
 
         @Override
