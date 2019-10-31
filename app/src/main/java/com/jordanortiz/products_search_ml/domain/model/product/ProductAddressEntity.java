@@ -24,4 +24,12 @@ public class ProductAddressEntity {
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
+
+    @Override
+    public String toString() {
+        return "ProductAddressEntity{" +
+                "stateName='" + stateName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                '}';
+    }
 }

@@ -48,4 +48,14 @@ public class ProductInstallmentsEntity {
     public void setCurrencyId(String currencyId) {
         this.currencyId = currencyId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductInstallmentsEntity{" +
+                "quantity=" + quantity +
+                ", amount=" + amount +
+                ", rate=" + rate +
+                ", currencyId='" + currencyId + '\'' +
+                '}';
+    }
 }

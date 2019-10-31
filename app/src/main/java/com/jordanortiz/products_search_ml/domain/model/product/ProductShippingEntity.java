@@ -15,4 +15,11 @@ public class ProductShippingEntity {
     public void setFreeShipping(Boolean freeShipping) {
         this.freeShipping = freeShipping;
     }
+
+    @Override
+    public String toString() {
+        return "ProductShippingEntity{" +
+                "freeShipping=" + freeShipping +
+                '}';
+    }
 }

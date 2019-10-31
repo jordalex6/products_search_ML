@@ -143,4 +143,25 @@ public class ProductEntity {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "id='" + id + '\'' +
+                ", siteId='" + siteId + '\'' +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", currencyId='" + currencyId + '\'' +
+                ", availableQuantity=" + availableQuantity +
+                ", soldQuantity=" + soldQuantity +
+                ", condition='" + condition + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", installments=" + installments +
+                ", address=" + address +
+                ", shipping=" + shipping +
+                ", attributes=" + attributes +
+                ", categoryId='" + categoryId + '\'' +
+                ", tags=" + tags +
+                '}';
+    }
 }

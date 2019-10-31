@@ -60,4 +60,15 @@ public class ProductAttributeEntity {
     public void setAttributeGroupId(String attributeGroupId) {
         this.attributeGroupId = attributeGroupId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductAttributeEntity{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", valueName='" + valueName + '\'' +
+                ", attributeGroupName='" + attributeGroupName + '\'' +
+                ", attributeGroupId='" + attributeGroupId + '\'' +
+                '}';
+    }
 }
