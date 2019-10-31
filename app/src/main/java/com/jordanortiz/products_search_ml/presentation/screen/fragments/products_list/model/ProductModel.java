@@ -6,14 +6,13 @@ public class ProductModel {
 
     private String id;
     private String title;
-    private float price;
+    private Double price;
     private String thumbnailImg;
     private String conditionType;
     private int soldQuantity;
-    private ProductAddressModel address;
+    private Integer availableQuantity;
     private ProductInstallmentsModel installments;
     private boolean shipping;
-    private List<ProductAttributeModel> attributes;
 
     public String getId() {
         return id;
@@ -31,11 +30,11 @@ public class ProductModel {
         this.title = title;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -63,14 +62,6 @@ public class ProductModel {
         this.soldQuantity = soldQuantity;
     }
 
-    public ProductAddressModel getProductAddress() {
-        return address;
-    }
-
-    public void setProductAddress(ProductAddressModel address) {
-        this.address = address;
-    }
-
     public ProductInstallmentsModel getProductInstallments() {
         return installments;
     }
@@ -87,12 +78,11 @@ public class ProductModel {
         this.shipping = shipping;
     }
 
-    public List<ProductAttributeModel> getProductAttribute() {
-        return attributes;
+    public Integer getAvailableQuantity() {
+        return availableQuantity;
     }
 
-    public void setProductAttribute(List<ProductAttributeModel> attributes) {
-        this.attributes = attributes;
+    public void setAvailableQuantity(Integer availableQuantity) {
+        this.availableQuantity = availableQuantity;
     }
-
 }
