@@ -1,6 +1,10 @@
 package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list;
 
+import android.util.Log;
+
 import com.jordanortiz.products_search_ml.core.presentation.mvp.presenter.BasePresenter;
+import com.jordanortiz.products_search_ml.domain.interactor.product_search.GetProductsWithQueryUseCase;
+import com.jordanortiz.products_search_ml.domain.model.product.ProductsPagingEntity;
 import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductInstallmentsModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
@@ -10,25 +14,35 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.observers.DisposableSingleObserver;
+
 @PerActivity
 public class ProductsListPresenter<V extends ProductsListMvpView>
         extends BasePresenter<V> implements ProductsListMvpPresenter<V> {
 
-    @Inject
-    public ProductsListPresenter() {
+    private static final String TAG = ProductsListPresenter.class.getSimpleName();
 
+    private final GetProductsWithQueryUseCase getProductsWithQueryUseCase;
+
+    @Inject
+    public ProductsListPresenter(GetProductsWithQueryUseCase getProductsWithQueryUseCase) {
+        this.getProductsWithQueryUseCase = getProductsWithQueryUseCase;
     }
 
 
     @Override
     public void onViewPrepared() {
-        createProductListDummy();
+//        createProductListDummy();
     }
 
     @Override
     public void applyQueryOfProduct(String query) {
         if(isQueryEmpty(query)){
             getMvpView().showMsgQueryIsEmpty();
+        }else{
+            this.getProductsWithQueryUseCase.execute(
+                    new GetProductsWithQuerySingleObserver(),
+                    GetProductsWithQueryUseCase.Params.forProductsQuery(query));
         }
     }
 
@@ -76,6 +90,19 @@ public class ProductsListPresenter<V extends ProductsListMvpView>
         productModelList.add(prod3);
 
         this.applyListOfProductObtained(productModelList);
+    }
+
+    private final class GetProductsWithQuerySingleObserver extends DisposableSingleObserver<ProductsPagingEntity>{
+
+        @Override
+        public void onSuccess(ProductsPagingEntity productsPagingEntity) {
+            Log.e(TAG, "onSuccess: paging" + productsPagingEntity.getPaging().toString() );
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, "onError: " + e.getMessage() );
+        }
     }
 
 
