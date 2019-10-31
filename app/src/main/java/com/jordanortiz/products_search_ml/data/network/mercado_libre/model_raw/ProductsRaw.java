@@ -17,7 +17,7 @@ public class ProductsRaw {
     private String title;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private Double price;
     @SerializedName("currency_id")
     @Expose
     private String currencyId;
@@ -79,11 +79,11 @@ public class ProductsRaw {
         this.title = title;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
