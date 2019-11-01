@@ -2,4 +2,7 @@
     <string name="app_name">ProductsSearchML</string>
     <string name="msg_query_empty">Para continuar ingrese algún valor</string>
     <string name="text_free_shipping">Envío gratis</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

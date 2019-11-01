@@ -24,6 +24,7 @@ import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
 import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailFragment;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
 import java.lang.reflect.Field;
@@ -147,7 +148,10 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     * */
     @Override
     public void onProductSelected(ProductModel product) {
-        Log.d(TAG, "onProductSelected: " + product.toString());
+        ((MainActivity)getBaseActivity()).replaceFragment(
+                ProductDetailFragment.newInstance(product.getId()),
+                ProductDetailFragment.TAG
+        );
     }
 
 

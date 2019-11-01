@@ -11,6 +11,9 @@ import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeMvpPresenter;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomeMvpView;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.home.HomePresenter;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailMvpPresenter;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailMvpView;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailPresenter;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListMvpPresenter;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListMvpView;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListPresenter;
@@ -63,6 +66,14 @@ public class ViewModule {
         return new ProductsListRecyclerViewAdapter(new ArrayList<ProductModel>(), context);
     }
     /* endBlock: Products List fragment */
+
+    /* startBlock: Products Detail fragment */
+    @Provides
+    ProductDetailMvpPresenter<ProductDetailMvpView> provideProductDetailPresenter(
+            ProductDetailPresenter<ProductDetailMvpView> presenter) {
+        return presenter;
+    }
+    /* endBlock: Products Detail fragment */
 
 
 
