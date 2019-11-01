@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="title_product_item">16sp</dimen>
+    <!-- Dimens for product item -->
+    <dimen name="title_product_item">15sp</dimen>
     <dimen name="price_product_item">18sp</dimen>
     <dimen name="text_secondary_product_item">13sp</dimen>
+    <!-- Dimens for detail -->
+    <dimen name="title_product_detail">18sp</dimen>
+    <dimen name="price_product_detail">22sp</dimen>
+    <dimen name="text_primary_product_detail">15sp</dimen>
+    <dimen name="text_secondary_product_detail">13sp</dimen>
 </resources>

@@ -74,6 +74,5 @@
             android:textSize="@dimen/text_secondary_product_item"
             android:textColor="@color/secondaryTextColor"
             />
-
     </LinearLayout>
 </LinearLayout>

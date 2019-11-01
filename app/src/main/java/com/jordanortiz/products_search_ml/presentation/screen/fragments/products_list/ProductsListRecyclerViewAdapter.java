@@ -51,7 +51,7 @@ public class ProductsListRecyclerViewAdapter extends
         holder.mItemPrice.setText(String.format("$ %s", mItem.getPrice()));
 //        setup product installments
         if(mItem.getProductInstallments() != null){
-            if(mItem.getProductInstallments().getRate() > 0){
+            if(mItem.getProductInstallments().getRate() == 0){
                 holder.mItemInstallments.setText(String.format(
                         "Hasta %s cuotas sin interés",
                         mItem.getProductInstallments().getQuantity())

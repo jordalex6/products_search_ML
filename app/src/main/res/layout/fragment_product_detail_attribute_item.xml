@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:weightSum="1"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/attribute_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:text="Marca"
+        android:textSize="@dimen/text_secondary_product_detail"
+        android:textColor="@color/primaryTextColor"
+        android:textStyle="bold"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/attribute_name_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:text="Phillips"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/text_secondary_product_detail"
+        android:padding="10dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

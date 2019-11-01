@@ -71,7 +71,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.e(TAG, "onCreate: ");
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
             mRecyclerViewAdapter.setCallbackListener(this);
             mPresenter.onAttach(this);
         }
-
+        Log.e(TAG, "onCreateView: ");
         return view;
     }
 

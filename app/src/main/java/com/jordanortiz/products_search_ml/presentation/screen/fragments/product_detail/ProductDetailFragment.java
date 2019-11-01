@@ -3,18 +3,30 @@ package com.jordanortiz.products_search_ml.presentation.screen.fragments.product
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.model.ProdDetailAttributeModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -30,8 +42,34 @@ public class ProductDetailFragment extends BaseFragment
 
     private String productId;
 
+    @BindView(R.id.item_header_info)
+    TextView tvHeaderInfo;
+    @BindView(R.id.item_title)
+    TextView tvTitle;
+    @BindView(R.id.item_price)
+    TextView tvPrice;
+    @BindView(R.id.item_thumbnail)
+    ImageView ivThumbnail;
+    @BindView(R.id.detail_installments)
+    LinearLayoutCompat llInstallments;
+    @BindView(R.id.item_installments)
+    TextView tvInstallments;
+    @BindView(R.id.icon_item_installments)
+    ImageView ivIconInstallments;
+    @BindView(R.id.detail_shipping)
+    LinearLayoutCompat llShipping;
+    @BindView(R.id.item_address)
+    TextView tvAddress;
+    @BindView(R.id.rv_product_detail_attribute)
+    RecyclerView rvAttributeList;
+
+
     @Inject
     ProductDetailMvpPresenter<ProductDetailMvpView> mPresenter;
+    @Inject
+    ProductDetailAtributteRecViewAdapter mRecyclerViewAdapter;
+    @Inject
+    LinearLayoutManager mLayoutManager;
 
     public ProductDetailFragment() {
     }
@@ -57,6 +95,7 @@ public class ProductDetailFragment extends BaseFragment
         if (getArguments() != null) {
             productId = getArguments().getString(ARG_PRODUCT_ID);
         }
+        Log.e(TAG, "onCreate: ");
     }
 
     @Override
@@ -69,12 +108,74 @@ public class ProductDetailFragment extends BaseFragment
             setUnBinder(ButterKnife.bind(this, view));
             mPresenter.onAttach(this);
         }
+
+        Log.e(TAG, "onCreateView: ");
         return view;
     }
 
     @Override
     protected void setUp(View view) {
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rvAttributeList.setLayoutManager(mLayoutManager);
+        rvAttributeList.setAdapter(mRecyclerViewAdapter);
         mPresenter.onViewPrepared(productId);
     }
 
+    @Override
+    public void setUpHeaderInfoView(String info) {
+        tvHeaderInfo.setText(info);
+    }
+
+    @Override
+    public void setUpThumbnailView(String thumbnailUrl) {
+        Glide.with(this)
+                .load(thumbnailUrl)
+                .placeholder(R.drawable.smartphone_muestra)
+                .fitCenter()
+                .into(ivThumbnail);
+    }
+
+    @Override
+    public void setUpTitleView(String title) {
+        tvTitle.setText(title);
+    }
+
+    @Override
+    public void setUpPriceView(String price) {
+        tvPrice.setText(price);
+    }
+
+    @Override
+    public void setUpInstallmentsView(String installment, boolean hasInterest) {
+        tvInstallments.setText(installment);
+        if(hasInterest){
+            tvInstallments.setTextColor(
+                    getBaseActivity().getResources().getColor(R.color.primaryTextColor)
+            );
+            ivIconInstallments.setColorFilter(
+                    getBaseActivity().getResources().getColor(R.color.primaryTextColor)
+            );
+        }
+    }
+
+    @Override
+    public void hideInstallmentsView() {
+        llInstallments.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setUpShippingView(boolean hasFreeShipping) {
+        if (hasFreeShipping)
+            llShipping.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setUpAddressView(String fullAddress) {
+        tvAddress.setText(fullAddress);
+    }
+
+    @Override
+    public void setUpAttributeListView(List<ProdDetailAttributeModel> attributeList) {
+        mRecyclerViewAdapter.addItems(attributeList);
+    }
 }
