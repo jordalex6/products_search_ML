@@ -89,8 +89,10 @@ public class ProductEntityDataMapper {
                        attribute.getName(),
                        attribute.getValueName(),
                        attribute.getAttributeGroupName(),
-                       attribute.getAttributeGroupId()
-               ));
+                       attribute.getAttributeGroupId(),
+                       attribute.getSource()
+                )
+               );
             }
             productEntity.setAttributes(productAttributeEntityList);
 

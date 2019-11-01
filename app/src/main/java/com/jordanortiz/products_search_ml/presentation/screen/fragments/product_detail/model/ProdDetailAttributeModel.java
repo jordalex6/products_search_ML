@@ -1,11 +1,13 @@
-package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model;
+package com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.model;
 
-public class ProductAttributeModel {
+public class ProdDetailAttributeModel {
 
+    private Long source;
     private String name;
     private String valueName;
 
-    public ProductAttributeModel(String name, String valueName) {
+    public ProdDetailAttributeModel(Long source, String name, String valueName) {
+        this.source = source;
         this.name = name;
         this.valueName = valueName;
     }
@@ -26,4 +28,11 @@ public class ProductAttributeModel {
         this.valueName = valueName;
     }
 
+    public Long getSource() {
+        return source;
+    }
+
+    public void setSource(Long source) {
+        this.source = source;
+    }
 }

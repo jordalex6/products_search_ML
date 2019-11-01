@@ -1,11 +1,11 @@
-package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model;
+package com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.model;
 
-public class ProductAddressModel {
+public class ProdDetailAddressModel {
 
     private String stateName;
     private String cityName;
 
-    public ProductAddressModel(String stateName, String cityName) {
+    public ProdDetailAddressModel(String stateName, String cityName) {
         this.stateName = stateName;
         this.cityName = cityName;
     }

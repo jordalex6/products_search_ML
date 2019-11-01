@@ -6,6 +6,7 @@ import com.jordanortiz.products_search_ml.core.presentation.mvp.presenter.BasePr
 import com.jordanortiz.products_search_ml.domain.interactor.product_detail.GetProductDetailByIdUseCase;
 import com.jordanortiz.products_search_ml.domain.model.product.ProductEntity;
 import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
+import com.jordanortiz.products_search_ml.presentation.mapper.ProductDetailMapper;
 
 import javax.inject.Inject;
 
@@ -18,10 +19,14 @@ public class ProductDetailPresenter<V extends ProductDetailMvpView>
     private static final String TAG = ProductDetailPresenter.class.getSimpleName();
 
     private final GetProductDetailByIdUseCase getProductDetailByIdUseCase;
+    private final ProductDetailMapper productDetailMapper;
 
     @Inject
-    public ProductDetailPresenter(GetProductDetailByIdUseCase getProductDetailByIdUseCase) {
+    public ProductDetailPresenter(
+            GetProductDetailByIdUseCase getProductDetailByIdUseCase,
+            ProductDetailMapper productDetailMapper) {
         this.getProductDetailByIdUseCase = getProductDetailByIdUseCase;
+        this.productDetailMapper = productDetailMapper;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class ProductDetailPresenter<V extends ProductDetailMvpView>
 
         @Override
         public void onSuccess(ProductEntity productEntity) {
-            Log.e(TAG, "onSuccess: product" + productEntity.toString() );
+            Log.e(TAG, "onSuccess: product" + ProductDetailPresenter.this.productDetailMapper.transformForProductDetail(productEntity));
         }
 
         @Override

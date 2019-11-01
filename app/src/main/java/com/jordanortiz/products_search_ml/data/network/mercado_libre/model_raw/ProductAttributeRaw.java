@@ -23,6 +23,9 @@ public class ProductAttributeRaw {
     @SerializedName("attribute_group_id")
     @Expose
     private String attributeGroupId;
+    @SerializedName("source")
+    @Expose
+    private Long source;
 
 
     public String getName() {
@@ -74,4 +77,11 @@ public class ProductAttributeRaw {
     }
 
 
+    public Long getSource() {
+        return source;
+    }
+
+    public void setSource(Long source) {
+        this.source = source;
+    }
 }

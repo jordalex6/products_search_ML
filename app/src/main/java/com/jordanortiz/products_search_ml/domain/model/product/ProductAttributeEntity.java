@@ -7,18 +7,20 @@ public class ProductAttributeEntity {
     private String valueName;
     private String attributeGroupName;
     private String attributeGroupId;
+    private Long source;
 
     public ProductAttributeEntity() {
     }
 
     public ProductAttributeEntity(String id, String name, String valueName,
-                                  String attributeGroupName, String attributeGroupId)
+                                  String attributeGroupName, String attributeGroupId, Long source)
     {
         this.id = id;
         this.name = name;
         this.valueName = valueName;
         this.attributeGroupName = attributeGroupName;
         this.attributeGroupId = attributeGroupId;
+        this.source = source;
     }
 
     public String getId() {
@@ -70,5 +72,13 @@ public class ProductAttributeEntity {
                 ", attributeGroupName='" + attributeGroupName + '\'' +
                 ", attributeGroupId='" + attributeGroupId + '\'' +
                 '}';
+    }
+
+    public Long getSource() {
+        return source;
+    }
+
+    public void setSource(Long source) {
+        this.source = source;
     }
 }
