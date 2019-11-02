@@ -1,34 +1,31 @@
 package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
 import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailFragment;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ListPagingModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * A fragment representing a list of Items.
  */
-public class ProductsListFragment extends BaseFragment implements ProductsListMvpView,
+public class ProductsListFragment extends BaseFragment implements
         ProductsListRecyclerViewAdapter.ProductsListAdapterListener {
 
     public static final String TAG = ProductsListFragment.class.getSimpleName();
@@ -49,16 +46,15 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     RecyclerView rvProducts;
 
     @Inject
-    ProductsListMvpPresenter<ProductsListMvpView> mPresenter;
-
+    ViewModelProvider.Factory factory;
     @Inject
     ProductsListRecyclerViewAdapter mRecyclerViewAdapter;
     @Inject
     LinearLayoutManager mLayoutManager;
 
-    public ProductsListFragment() {
+    private ProductsListViewModel mViewModel;
+    private String mProductsCategory;
 
-    }
 
     public static ProductsListFragment newInstance(String category) {
         ProductsListFragment fragment = new ProductsListFragment();
@@ -69,41 +65,68 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected int layoutRes() {
+        return R.layout.fragment_products_list;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "onCreate: ");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_products_list, container, false);
-
-        ViewComponent component = getViewComponent();
-        if (component != null) {
-            component.inject(this);
-            setUnBinder(ButterKnife.bind(this, view));
-            mRecyclerViewAdapter.setCallbackListener(this);
-            mPresenter.onAttach(this);
+        if(getArguments() != null){
+            mProductsCategory = getArguments().getString(CATEGORY);
         }
-        Log.e(TAG, "onCreateView: ");
-        return view;
-    }
 
-    @Override
-    protected void setUp(View view) {
-        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        rvProducts.setLayoutManager(mLayoutManager);
-        rvProducts.setItemAnimator(new DefaultItemAnimator());
-        rvProducts.setAdapter(mRecyclerViewAdapter);
-        mPresenter.onViewPrepared();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ViewComponent component = getViewComponent();
+        if (component != null) {
+            component.inject(this);
+        }
+
+        mViewModel = ViewModelProviders.of(this,factory).get(ProductsListViewModel.class);
+        mViewModel.onViewPrepared(mProductsCategory);
+
+        mRecyclerViewAdapter.setCallbackListener(this);
+
+        rvProducts.setItemAnimator(new DefaultItemAnimator());
+        rvProducts.setAdapter(mRecyclerViewAdapter);
+        rvProducts.setLayoutManager(mLayoutManager);
+
+        subscribeToModel(mViewModel);
         // Create menu
         setHasOptionsMenu(true);
+
+        Log.e(TAG, "onActivityCreated: ");
+    }
+
+    private void subscribeToModel(ProductsListViewModel viewModel) {
+        viewModel.getProductList().observe(this, new Observer<List<ProductModel>>() {
+            @Override
+            public void onChanged(List<ProductModel> productListModel) {
+                if(productListModel.size() > 0)
+                    showProductList(productListModel);
+//                TODO add else showProductListEmpty()
+            }
+        });
+
+        viewModel.getListPaging().observe(this, new Observer<ListPagingModel>() {
+            @Override
+            public void onChanged(ListPagingModel listPagingModel) {
+                Log.e(TAG, "onChanged: ListPagingModel -> " + listPagingModel.toString() );
+            }
+        });
+
+        viewModel.getErrorMessage().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer errorMessage) {
+                if(errorMessage != null)
+                    showMessageToastyError(errorMessage);
+            }
+        });
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -119,8 +142,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.e(TAG, "onQueryTextSubmit: query -> " + query );
-                mPresenter.applyQueryOfProduct(query);
+                mViewModel.loadProductList(query);
                 return false;
             }
 
@@ -131,16 +153,6 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
             }
         });
 
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     /*
@@ -154,14 +166,7 @@ public class ProductsListFragment extends BaseFragment implements ProductsListMv
         );
     }
 
-
-    @Override
-    public void showMsgQueryIsEmpty() {
-        this.showMessageToastyInfo(getBaseActivity().getString(R.string.msg_query_empty));
-    }
-
-    @Override
-    public void showProductList(List<ProductModel> productList) {
+    private void showProductList(List<ProductModel> productList) {
         mRecyclerViewAdapter.addItems(productList);
     }
 }

@@ -16,13 +16,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductDetailAtributteRecViewAdapter  extends
-        RecyclerView.Adapter<ProductDetailAtributteRecViewAdapter.ViewHolder> {
+public class ProductDetailAttributeRecViewAdapter extends
+        RecyclerView.Adapter<ProductDetailAttributeRecViewAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<ProdDetailAttributeModel> mValues;
 
-    public ProductDetailAtributteRecViewAdapter(Context mContext,
+    public ProductDetailAttributeRecViewAdapter(Context mContext,
                                                 List<ProdDetailAttributeModel> items) {
         this.mContext = mContext;
         this.mValues = items;

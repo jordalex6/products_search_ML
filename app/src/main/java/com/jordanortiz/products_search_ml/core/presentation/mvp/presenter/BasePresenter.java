@@ -2,6 +2,8 @@ package com.jordanortiz.products_search_ml.core.presentation.mvp.presenter;
 
 import android.util.Log;
 
+import androidx.lifecycle.ViewModel;
+
 import com.androidnetworking.common.ANConstants;
 import com.androidnetworking.error.ANError;
 import com.google.gson.Gson;
@@ -9,72 +11,34 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.jordanortiz.products_search_ml.R;
 import com.jordanortiz.products_search_ml.core.data.ApiError;
-import com.jordanortiz.products_search_ml.core.presentation.mvp.view.MvpBaseView;
 import com.jordanortiz.products_search_ml.core.utilities.AppConstants;
-
 
 import javax.net.ssl.HttpsURLConnection;
 
 
-public abstract class BasePresenter<V extends MvpBaseView> implements MvpBasePresenter<V> {
+public abstract class BasePresenter extends ViewModel implements IBasePresenter {
 
     private static final String TAG = BasePresenter.class.getSimpleName();
 
-
-
-    public BasePresenter() {
+    protected BasePresenter() {
 
     }
 
-    protected V view;
-
-    public void onResume(){}
-    public void onPause(){}
 
     @Override
-    public void onAttach(V mvpView) {
-        view = mvpView;
-    }
-
-    @Override
-    public void onDetach() {
-        view = null;
-    }
-
-    public boolean isViewAttached() {
-        return view != null;
-    }
-
-    public V getMvpView() {
-        return view;
-    }
-
-    public void checkViewAttached() {
-        if (!isViewAttached()) throw new MvpViewNotAttachedException();
-    }
-
-    @Override
-    public void setUserAsLoggedOut() {
-        // Clear token
-    }
-
-    @Override
-    public void handleApiError(ANError error) {
+    public int handleApiError(ANError error) {
         if (error == null) {
-            getMvpView().showMessageToastyError(R.string.api_default_error);
-            return;
+            return R.string.api_default_error;
         }
 
         if (error.getErrorCode() == AppConstants.API_STATUS_CODE_LOCAL_ERROR
                 && error.getErrorDetail().equals(ANConstants.CONNECTION_ERROR)) {
-            getMvpView().showMessageToastyError(R.string.connection_error);
-            return;
+            return R.string.connection_error;
         }
 
         if (error.getErrorCode() == AppConstants.API_STATUS_CODE_LOCAL_ERROR
                 && error.getErrorDetail().equals(ANConstants.REQUEST_CANCELLED_ERROR)) {
-            getMvpView().showMessageToastyError(R.string.api_retry_error);
-            return;
+            return R.string.api_retry_error;
         }
 
         final GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
@@ -82,11 +46,11 @@ public abstract class BasePresenter<V extends MvpBaseView> implements MvpBasePre
 
         try {
             int error_message = R.string.api_default_error;
-            ApiError apiError = gson.fromJson(error.getErrorBody(), ApiError.class);
 
+            ApiError apiError = gson.fromJson(error.getErrorBody(), ApiError.class);
             if (apiError != null && apiError.getMessage() != null) {
-                getMvpView().showMessageToastyError(apiError.getMessage());
-                return;
+//              TODO cambiar String por Recursos String en capa de datos.
+                return R.string.api_default_error;
             }
 
             switch (error.getErrorCode()) {
@@ -104,22 +68,13 @@ public abstract class BasePresenter<V extends MvpBaseView> implements MvpBasePre
                 case HttpsURLConnection.HTTP_CLIENT_TIMEOUT:
                     error_message = R.string.network_timeout_408;
                     break;
-                default:
-                    Log.e(TAG, "handleApiError: default -> " + apiError.getMessage() );
-                    getMvpView().showMessageToastyError(error_message);
             }
 
-            getMvpView().showMessageToastyError(error_message);
+            return error_message;
         } catch (JsonSyntaxException | NullPointerException e) {
             Log.e(TAG, "handleApiError"  + e.getLocalizedMessage());
-            getMvpView().showMessageToastyError(R.string.api_default_error);
+            return R.string.api_default_error;
         }
     }
 
-    public static class MvpViewNotAttachedException extends RuntimeException {
-        public MvpViewNotAttachedException() {
-            super("Please call Presenter.onAttach(MvpView) before" +
-                    " requesting data to the Presenter");
-        }
-    }
 }

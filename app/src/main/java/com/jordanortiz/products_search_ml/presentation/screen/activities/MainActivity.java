@@ -38,41 +38,34 @@ public class MainActivity extends BaseActivity
     TextView txtTitle;
 
     @Override
+    protected int layoutRes() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         getViewComponent().inject(this);
 
-        setUnBinder(ButterKnife.bind(this));
+        if(savedInstanceState == null)
+            initHomeFragment();
 
-        setUp();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
     protected void setUp() {
         setSupportActionBar(mToolbar);
-        initHomeFragment();
     }
 
     public void initHomeFragment() {
+        //replaceFragment(ProductsListFragment.newInstance("MLA1055"), ProductsListFragment.TAG);
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack(ProductsListFragment.TAG)
+                .addToBackStack(null)
                 .replace(
                         R.id.frame_container,
-                        ProductsListFragment.newInstance("MLA1055"), /* Tecnology */
+                        ProductsListFragment.newInstance("Notebook"),  //MLA1055 Tecnology
                         ProductsListFragment.TAG
                 )
                 .commit();
@@ -132,7 +125,7 @@ public class MainActivity extends BaseActivity
                     .disallowAddToBackStack()
                     .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
                     .remove(fragment)
-                    .commitNow();
+                    .commit();
         }
     }
 

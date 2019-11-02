@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -14,47 +17,36 @@ import androidx.fragment.app.Fragment;
 import com.jordanortiz.products_search_ml.core.presentation.mvp.view.MvpBaseView;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment implements MvpBaseView {
 
     private static final String TAG = BaseFragment.class.getSimpleName();
 
-
-    private Context mContext;
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
 
     private OnStartFragmentListener mCallback;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    @LayoutRes
+    protected abstract int layoutRes();
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 
+    @Nullable
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setUp(view);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(layoutRes(), container, false);
+        mUnBinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof BaseActivity) {
-            BaseActivity activity = (BaseActivity) context;
-            this.mActivity = activity;
-            activity.onFragmentAttached();
+            this.mActivity = (BaseActivity) context;
+            this.mActivity.onFragmentAttached();
 
             mCallback = (OnStartFragmentListener)context;
         }
@@ -63,10 +55,11 @@ public abstract class BaseFragment extends Fragment implements MvpBaseView {
     @Override
     public void onDetach() {
         super.onDetach();
+        this.mActivity = null;
     }
 
 
-    public ViewComponent getViewComponent(){
+    protected ViewComponent getViewComponent(){
         if (mActivity != null) {
             return mActivity.getViewComponent();
         }
@@ -152,22 +145,18 @@ public abstract class BaseFragment extends Fragment implements MvpBaseView {
         }
     }
 
-    public BaseActivity getBaseActivity() {
+    protected BaseActivity getBaseActivity() {
         return mActivity;
     }
 
-    public void setUnBinder(Unbinder unBinder) {
-        mUnBinder = unBinder;
-    }
-
-    protected abstract void setUp(View view);
+//    protected abstract void setUp(View view);
 
     @Override
     public void onDestroy() {
-        if (mUnBinder != null) {
+        if(mUnBinder != null) {
             mUnBinder.unbind();
+            mUnBinder = null;
         }
-        mActivity = null;
         super.onDestroy();
     }
 

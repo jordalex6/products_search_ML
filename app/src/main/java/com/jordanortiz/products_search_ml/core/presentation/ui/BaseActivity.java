@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -27,6 +28,7 @@ import com.jordanortiz.products_search_ml.presentation.di.module.ViewModule;
 
 import java.util.Objects;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 
@@ -37,11 +39,18 @@ public abstract class BaseActivity extends AppCompatActivity
 
         private Unbinder mUnBinder;
 
+        @LayoutRes
+        protected abstract int layoutRes();
+
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setContentView(layoutRes());
+            mUnBinder = ButterKnife.bind(this);
             initializeInjector();
             init();
+
+            setUp();
         }
 
         public ViewComponent getViewComponent() {
@@ -178,9 +187,6 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
 
-        public void setUnBinder(Unbinder unBinder) {
-            mUnBinder = unBinder;
-        }
 
         @Override
         protected void onDestroy() {

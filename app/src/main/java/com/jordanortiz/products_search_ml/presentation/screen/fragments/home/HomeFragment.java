@@ -3,36 +3,33 @@ package com.jordanortiz.products_search_ml.presentation.screen.fragments.home;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.jordanortiz.products_search_ml.R;
+import com.jordanortiz.products_search_ml.core.presentation.mvp.view.MvpBaseView;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
 
 import javax.inject.Inject;
-
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends BaseFragment implements HomeMvpView{
+public class HomeFragment extends BaseFragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String TAG = HomeFragment.class.getSimpleName();
 
     @Inject
-    HomeMvpPresenter<HomeMvpView> mPresenter;
+    ViewModelProvider.Factory factory;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    private HomeViewModel mViewModel;
+
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -48,22 +45,20 @@ public class HomeFragment extends BaseFragment implements HomeMvpView{
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ViewComponent component = getViewComponent();
-        if (component != null) {
-            component.inject(this);
-            setUnBinder(ButterKnife.bind(this, view));
-            mPresenter.onAttach(this);
-        }
-        return view;
+    protected int layoutRes() {
+        return R.layout.fragment_home;
     }
 
     @Override
-    protected void setUp(View view) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ViewComponent component = getViewComponent();
+        if (component != null) {
+            component.inject(this);
+        }
 
+        mViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
     }
+
 
 }
