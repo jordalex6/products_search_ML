@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-@PerActivity
+
 public class ProductDetailViewModel extends BasePresenter{
 
     private static final String TAG = ProductDetailViewModel.class.getSimpleName();
@@ -37,8 +37,8 @@ public class ProductDetailViewModel extends BasePresenter{
 
     @Override
     protected void onCleared() {
-        super.onCleared();
         getProductDetailByIdUseCase.dispose();
+        super.onCleared();
     }
 
     void onViewPrepared(String productId) {

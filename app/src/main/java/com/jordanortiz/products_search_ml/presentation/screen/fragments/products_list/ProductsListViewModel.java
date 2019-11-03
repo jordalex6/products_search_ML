@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-@PerActivity
+
 public class ProductsListViewModel extends BasePresenter  {
 
     private static final String TAG = ProductsListViewModel.class.getSimpleName();
@@ -57,9 +57,9 @@ public class ProductsListViewModel extends BasePresenter  {
 
     @Override
     protected void onCleared() {
-        super.onCleared();
         getProductsWithQueryUseCase.dispose();
         getProductsWithCategoryIdUseCase.dispose();
+        super.onCleared();
     }
 
     private void loadProductListByCategory(String categoryId) {
