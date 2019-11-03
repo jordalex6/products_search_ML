@@ -163,7 +163,7 @@ public class ProductDetailFragment extends BaseFragment {
     private void setUpThumbnailView(String thumbnailUrl) {
         Glide.with(this)
                 .load(thumbnailUrl)
-                .placeholder(R.drawable.smartphone_muestra)
+                .placeholder(R.drawable.loading)
                 .fitCenter()
                 .into(ivThumbnail);
     }

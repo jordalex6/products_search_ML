@@ -59,14 +59,13 @@ public class MainActivity extends BaseActivity
     }
 
     public void initHomeFragment() {
-        //replaceFragment(ProductsListFragment.newInstance("MLA1055"), ProductsListFragment.TAG);
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(
                         R.id.frame_container,
-                        ProductsListFragment.newInstance("Notebook"),  //MLA1055 Tecnology
-                        ProductsListFragment.TAG
+                        HomeFragment.newInstance(),
+                        HomeFragment.TAG
                 )
                 .commit();
     }

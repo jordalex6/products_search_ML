@@ -6,4 +6,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_product_info">Información del producto</string>
+    <string name="str_category_computing">Computación</string>
+    <string name="str_category_smartphone">Celulares y Teléfonos</string>
+    <string name="str_category_game_boy">Consolas y Videojuegos</string>
+    <string name="str_category_home_appliances">Electrodomésticos y Aires Ac.</string>
+    <string name="str_category_camera">Cámaras y Accesorios</string>
+    <string name="str_category_cars">Autos, Motos y Otros</string>
 </resources>

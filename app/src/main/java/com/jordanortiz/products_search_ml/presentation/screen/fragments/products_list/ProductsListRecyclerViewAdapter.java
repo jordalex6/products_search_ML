@@ -67,8 +67,7 @@ public class ProductsListRecyclerViewAdapter extends
         if(mItem.getThumbnailImg() != null){
             Glide.with(mContext)
                     .load(mItem.getThumbnailImg())
-                    .placeholder(R.drawable.smartphone_muestra)
-                    .fitCenter()
+                    .placeholder(R.drawable.loading)
                     .into(holder.mThumbnailItem);
         }
 

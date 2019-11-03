@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.jordanortiz.products_search_ml.R;
-import com.jordanortiz.products_search_ml.core.presentation.mvp.view.MvpBaseView;
 import com.jordanortiz.products_search_ml.core.presentation.ui.BaseFragment;
 import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponent;
+import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.ProductsListFragment;
 
 import javax.inject.Inject;
+
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,9 +24,13 @@ import javax.inject.Inject;
  * create an instance of this fragment.
  */
 public class HomeFragment extends BaseFragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String CATEGORY_COMPUTING = "MLA1648";
+    private static final String CATEGORY_SMARTPHONE = "MLA1051";
+    private static final String CATEGORY_GAME = "MLA1144";
+    private static final String CATEGORY_HOME_APPLIANCES = "MLA5726";
+    private static final String CATEGORY_CAMERA = "MLA1039";
+    private static final String CATEGORY_CARS = "MLA1743";
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -43,7 +50,6 @@ public class HomeFragment extends BaseFragment{
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     protected int layoutRes() {
         return R.layout.fragment_home;
@@ -60,5 +66,41 @@ public class HomeFragment extends BaseFragment{
         mViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
     }
 
+    @OnClick(R.id.category_computing)
+    void onClickCategoryComputing(){
+        launchFragmentProductListByCategory(CATEGORY_COMPUTING);
+    }
+
+    @OnClick(R.id.category_smartphone)
+    void onClickCategorySmartphone(){
+        launchFragmentProductListByCategory(CATEGORY_SMARTPHONE);
+    }
+
+    @OnClick(R.id.category_game)
+    void onClickCategoryGame(){
+        launchFragmentProductListByCategory(CATEGORY_GAME);
+    }
+
+    @OnClick(R.id.category_home_appliances)
+    void onClickCategoryHomeAppliances(){
+        launchFragmentProductListByCategory(CATEGORY_HOME_APPLIANCES);
+    }
+
+    @OnClick(R.id.category_camera)
+    void onClickCategoryCamera(){
+        launchFragmentProductListByCategory(CATEGORY_CAMERA);
+    }
+
+    @OnClick(R.id.category_cars)
+    void onClickCategoryCards(){
+        launchFragmentProductListByCategory(CATEGORY_CARS);
+    }
+
+    private void launchFragmentProductListByCategory(String category){
+        ((MainActivity)getBaseActivity()).replaceFragment(
+                ProductsListFragment.newInstance(category),
+                ProductsListFragment.TAG
+        );
+    }
 
 }

@@ -74,6 +74,7 @@ public class ProductsListFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         if(getArguments() != null){
             mProductsCategory = getArguments().getString(CATEGORY);
+            Log.e(TAG, "onCreate: category selected -> " + mProductsCategory );
         }
 
     }

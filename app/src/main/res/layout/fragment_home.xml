@@ -1,15 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.screen.fragments.home.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.screen.fragments.home.HomeFragment">
+    android:background="@color/primaryLightColor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        >
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_computing"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_computing_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_computing"
+                    />
+
+                <TextView
+                    android:id="@+id/category_computing_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_computing"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_toEndOf="@id/category_computing_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_smartphone"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_smartphone_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_smartphone"
+                    />
+
+                <TextView
+                    android:id="@+id/category_smartphone_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_smartphone"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_toEndOf="@id/category_smartphone_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_game"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_game_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_game_boy"
+                    />
+
+                <TextView
+                    android:id="@+id/category_game_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_game_boy"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_toEndOf="@id/category_game_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_home_appliances"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_home_appliances_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_home_appliances"
+                    />
+
+                <TextView
+                    android:id="@+id/category_home_appliances_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_home_appliances"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/category_home_appliances_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_camera"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_camera_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_camera"
+                    />
+
+                <TextView
+                    android:id="@+id/category_camera_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_camera"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/category_camera_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_cars"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            card_view:cardBackgroundColor="@color/secondaryLightColor"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/category_cars_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:src="@drawable/category_cars"
+                    />
+
+                <TextView
+                    android:id="@+id/category_cars_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_category_cars"
+                    android:textSize="@dimen/dimen_category_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/category_cars_img"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>

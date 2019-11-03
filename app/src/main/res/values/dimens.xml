@@ -10,4 +10,5 @@
     <dimen name="price_product_detail">22sp</dimen>
     <dimen name="text_primary_product_detail">15sp</dimen>
     <dimen name="text_secondary_product_detail">13sp</dimen>
+    <dimen name="dimen_category_title">20sp</dimen>
 </resources>
