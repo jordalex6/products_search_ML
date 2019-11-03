@@ -7,7 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.androidnetworking.error.ANError;
 import com.jordanortiz.products_search_ml.core.presentation.mvp.presenter.BasePresenter;
-import com.jordanortiz.products_search_ml.domain.interactor.product_search.GetProductsWithQueryUseCase;
+import com.jordanortiz.products_search_ml.domain.interactor.product_list.GetProductsWithCategoryIdUseCase;
+import com.jordanortiz.products_search_ml.domain.interactor.product_list.GetProductsWithQueryUseCase;
 import com.jordanortiz.products_search_ml.domain.model.product.ProductsPagingEntity;
 import com.jordanortiz.products_search_ml.presentation.di.scope.PerActivity;
 import com.jordanortiz.products_search_ml.presentation.mapper.ProductListMapper;
@@ -31,32 +32,45 @@ public class ProductsListViewModel extends BasePresenter  {
     private MutableLiveData<Integer> errorMessage;
 
     private final GetProductsWithQueryUseCase getProductsWithQueryUseCase;
+    private final GetProductsWithCategoryIdUseCase getProductsWithCategoryIdUseCase;
     private final ProductListMapper productListMapper;
 
     @Inject
-    ProductsListViewModel(GetProductsWithQueryUseCase getProductsWithQueryUseCase, ProductListMapper productListMapper) {
+    ProductsListViewModel(
+            GetProductsWithQueryUseCase getProductsWithQueryUseCase,
+            GetProductsWithCategoryIdUseCase getProductsWithCategoryIdUseCase,
+            ProductListMapper productListMapper) {
         this.getProductsWithQueryUseCase = getProductsWithQueryUseCase;
+        this.getProductsWithCategoryIdUseCase = getProductsWithCategoryIdUseCase;
         this.productListMapper = productListMapper;
     }
 
-    void onViewPrepared(String q){
+    void onViewPrepared(String categoryId){
         if(productList == null && listPaging == null){
             productList = new MutableLiveData<>();
             listPaging = new MutableLiveData<>();
             errorMessage =  new MutableLiveData<>();
-            loadProductList(q);
+            loadProductListByCategory(categoryId);
         }
     }
+
 
     @Override
     protected void onCleared() {
         super.onCleared();
         getProductsWithQueryUseCase.dispose();
+        getProductsWithCategoryIdUseCase.dispose();
+    }
+
+    private void loadProductListByCategory(String categoryId) {
+        this.getProductsWithCategoryIdUseCase.execute(
+                new GetProductsSingleObserver(),
+                GetProductsWithCategoryIdUseCase.Params.forProductsCategory(categoryId));
     }
 
     void loadProductList(String q) {
         this.getProductsWithQueryUseCase.execute(
-                new GetProductsWithQuerySingleObserver(),
+                new GetProductsSingleObserver(),
                 GetProductsWithQueryUseCase.Params.forProductsQuery(q));
 
     }
@@ -82,7 +96,7 @@ public class ProductsListViewModel extends BasePresenter  {
         this.errorMessage.setValue(stringResource);
     }
 
-    private final class GetProductsWithQuerySingleObserver extends DisposableSingleObserver<ProductsPagingEntity>{
+    private final class GetProductsSingleObserver extends DisposableSingleObserver<ProductsPagingEntity>{
 
         @Override
         public void onSuccess(ProductsPagingEntity productsPagingEntity) {

@@ -10,6 +10,7 @@ import io.reactivex.Single;
 public interface DataManager{
 
     Single<ProductsPagingEntity> getProductsDataWithQuery(String query);
+    Single<ProductsPagingEntity> getProductsDataWithCategoryId(String categoryId);
     Single<ProductEntity> getProductsDetailById(String id);
 
 

@@ -4,7 +4,7 @@ import com.jordanortiz.products_search_ml.core.utilities.AppConstants;
 
 public final class ApiEndPoint {
 
-    public static final String ENDPOINT_GET_PRODUCTS_BY_QUERY = AppConstants.BASE_URL
+    public static final String ENDPOINT_SEARCH_PRODUCTS = AppConstants.BASE_URL
             + "search";
 
 }

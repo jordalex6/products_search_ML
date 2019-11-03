@@ -23,8 +23,16 @@ public class MercadoLibreApiRestImpl implements MercadoLibreApiRest {
 
     @Override
     public Single<ProductsResponse> getProductsDataByQuery(String query) {
-        return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_GET_PRODUCTS_BY_QUERY)
+        return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_SEARCH_PRODUCTS)
                 .addQueryParameter("q",query)
+                .build()
+                .getObjectSingle(ProductsResponse.class);
+    }
+
+    @Override
+    public Single<ProductsResponse> getProductsDataByCategoryId(String categoryId) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_SEARCH_PRODUCTS)
+                .addQueryParameter("category",categoryId)
                 .build()
                 .getObjectSingle(ProductsResponse.class);
     }

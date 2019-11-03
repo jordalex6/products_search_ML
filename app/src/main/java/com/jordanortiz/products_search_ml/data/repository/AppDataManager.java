@@ -53,6 +53,13 @@ public class AppDataManager implements DataManager {
                 .doOnSuccess(this::updateLocalStoreWithProductsObtained);
     }
 
+    @Override
+    public Single<ProductsPagingEntity> getProductsDataWithCategoryId(String categoryId) {
+        return mercadoLibreApiRest.getProductsDataByCategoryId(categoryId)
+                .map(mapper::transform)
+                .doOnSuccess(this::updateLocalStoreWithProductsObtained);
+    }
+
     /**
      * get product detail for id passed by parameters
      * from local storage

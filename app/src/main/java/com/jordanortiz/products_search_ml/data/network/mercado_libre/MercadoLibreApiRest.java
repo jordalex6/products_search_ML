@@ -11,4 +11,6 @@ import io.reactivex.Single;
 public interface MercadoLibreApiRest {
 
     Single<ProductsResponse> getProductsDataByQuery(String query);
+
+    Single<ProductsResponse> getProductsDataByCategoryId(String categoryId);
 }
