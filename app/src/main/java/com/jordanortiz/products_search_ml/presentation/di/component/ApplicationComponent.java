@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 //import com.itnnovar.capturescorpion.core.utilities.NetworkStateReceiver;
 
 import com.jordanortiz.products_search_ml.ProductSearchMLApplication;
+import com.jordanortiz.products_search_ml.core.data.manager.NetworkManager;
 import com.jordanortiz.products_search_ml.data.di.module.DataStoreModule;
 import com.jordanortiz.products_search_ml.domain.executor.PostExecutionThread;
 import com.jordanortiz.products_search_ml.domain.executor.ThreadExecutor;
@@ -31,8 +32,7 @@ public interface ApplicationComponent {
 
     @ApplicationContext
     Context context();
-    //NetworkManager networkManager();
-    //NetworkStateReceiver networkStateReceiver();
+    NetworkManager networkManager();
     CompositeDisposable compositeDisposable();
     ThreadExecutor threadExecutor();
     PostExecutionThread postExecutionThread();

@@ -5,6 +5,8 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import com.jordanortiz.products_search_ml.core.data.manager.NetworkManager;
+import com.jordanortiz.products_search_ml.core.data.manager.impl.NetworkManagerImpl;
 import com.jordanortiz.products_search_ml.data.executor.JobExecutor;
 import com.jordanortiz.products_search_ml.data.repository.AppDataManager;
 import com.jordanortiz.products_search_ml.domain.executor.PostExecutionThread;
@@ -58,10 +60,11 @@ public class ApplicationModule {
         return uiThread;
     }
 
-/*    @Provides
+    @Provides
     @Singleton
     NetworkManager provideNetworkManager(NetworkManagerImpl networkManager){ return networkManager; }
 
+/*
     @Provides
     @Singleton
     NetworkStateReceiver provideNetWorkStateReceiver(NetworkStateReceiver networkStateReceiver){

@@ -36,6 +36,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * A fragment representing a list of Items.
@@ -76,6 +77,7 @@ public class ProductsListFragment extends BaseFragment implements
 
     private ProductsListViewModel mViewModel;
     private String mProductsCategory;
+    private String mProductsQuery;
 
 
     public static ProductsListFragment newInstance(String category) {
@@ -144,6 +146,13 @@ public class ProductsListFragment extends BaseFragment implements
             }
         });
 
+        viewModel.getNetworkStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean hasNetwork) {
+                setUpNetworkStatus(hasNetwork);
+            }
+        });
+
         viewModel.getErrorMessage().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer errorMessage) {
@@ -152,7 +161,6 @@ public class ProductsListFragment extends BaseFragment implements
             }
         });
     }
-
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate menu
@@ -167,17 +175,25 @@ public class ProductsListFragment extends BaseFragment implements
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mProductsQuery = query;
+                mProductsCategory = null;
                 mViewModel.loadProductList(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.e(TAG, "onQueryTextChange: partial query -> " + newText );
                 return false;
             }
         });
 
+    }
+
+    @OnClick(R.id.btn_retry)
+    void onClickBtnRetry(){
+        if(mProductsCategory != null)
+            mViewModel.loadProductListByCategory(mProductsCategory);
+        else if(mProductsQuery != null)
+            mViewModel.loadProductList(mProductsQuery);
     }
 
     /*
@@ -201,6 +217,23 @@ public class ProductsListFragment extends BaseFragment implements
             loading.setVisibility(View.GONE);
     }
 
+    private void setUpNetworkStatus(Boolean hasNetwork) {
+        if (!hasNetwork){
+            productListContainer.setVisibility(View.GONE);
+            informativeViewContainer.setVisibility(View.VISIBLE);
+            btnRetry.setVisibility(View.VISIBLE);
+            setUpInformativeView(
+                    "¡Parece que no hay internet!",
+                    "Revisa tu conexión para seguir navegando.",
+                    getBaseActivity().getResources().getDrawable(R.drawable.network)
+            );
+        }else{
+            informativeViewContainer.setVisibility(View.GONE);
+            btnRetry.setVisibility(View.GONE);
+        }
+
+    }
+
 
     private void setUpProductList(List<ProductModel> productList) {
         productListContainer.setVisibility(View.VISIBLE);
@@ -211,7 +244,6 @@ public class ProductsListFragment extends BaseFragment implements
     private void setUpProductListEmpty() {
         productListContainer.setVisibility(View.GONE);
         informativeViewContainer.setVisibility(View.VISIBLE);
-        btnRetry.setVisibility(View.GONE);
         setUpInformativeView(
                 "No encontramos publicaciones",
                 "Revisa que la palabra esté bien escrita.",
