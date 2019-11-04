@@ -1,7 +1,6 @@
 package com.jordanortiz.products_search_ml.presentation.mapper;
 
 import com.jordanortiz.products_search_ml.domain.model.product.ProductEntity;
-import com.jordanortiz.products_search_ml.domain.model.product.ProductInstallmentsEntity;
 import com.jordanortiz.products_search_ml.domain.model.product.ProductsPagingEntity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ListPagingModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductInstallmentsModel;
@@ -30,8 +29,8 @@ public class ProductListMapper {
 
         productList.setPaging(new ListPagingModel(
                         productsPagingEntity.getPaging().getTotal(),
-                        productsPagingEntity.getPaging().getPrimaryResults()
-                )
+                        productsPagingEntity.getPaging().getPrimaryResults(),
+                        productsPagingEntity.getPaging().getLimit())
         );
 
         List<ProductModel> productModelList = transformForProductList(productsPagingEntity.getProductList());

@@ -27,8 +27,8 @@ public class ProductsListViewModel extends BasePresenter  {
 
     private static final String TAG = ProductsListViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<ProductModel>> productList;
-    private MutableLiveData<ListPagingModel> listPaging;
+    private MutableLiveData<ProductListModel> productList;
+    private MutableLiveData<Boolean> loading;
     private MutableLiveData<Integer> errorMessage;
 
     private final GetProductsWithQueryUseCase getProductsWithQueryUseCase;
@@ -46,10 +46,11 @@ public class ProductsListViewModel extends BasePresenter  {
     }
 
     void onViewPrepared(String categoryId){
-        if(productList == null && listPaging == null){
+        if(productList == null){
             productList = new MutableLiveData<>();
-            listPaging = new MutableLiveData<>();
             errorMessage =  new MutableLiveData<>();
+            loading =  new MutableLiveData<>();
+
             loadProductListByCategory(categoryId);
         }
     }
@@ -63,43 +64,38 @@ public class ProductsListViewModel extends BasePresenter  {
     }
 
     private void loadProductListByCategory(String categoryId) {
+        loading.setValue(Boolean.TRUE);
         this.getProductsWithCategoryIdUseCase.execute(
                 new GetProductsSingleObserver(),
                 GetProductsWithCategoryIdUseCase.Params.forProductsCategory(categoryId));
     }
 
     void loadProductList(String q) {
+        loading.setValue(Boolean.TRUE);
         this.getProductsWithQueryUseCase.execute(
                 new GetProductsSingleObserver(),
                 GetProductsWithQueryUseCase.Params.forProductsQuery(q));
 
     }
 
-    LiveData<List<ProductModel>> getProductList() {
+    LiveData<ProductListModel> getProductList() {
         return productList;
     }
-
-    LiveData<ListPagingModel> getListPaging() {
-        return listPaging;
-    }
-
+    LiveData<Boolean> getLoading(){ return loading; }
     LiveData<Integer> getErrorMessage(){ return errorMessage; }
 
 
     private void setProductListModel(ProductListModel productListModel){
-        this.listPaging.setValue(productListModel.getPaging());
-        this.productList.setValue(productListModel.getProductList());
-        this.errorMessage.setValue(null);
+        this.productList.setValue(productListModel);
     }
 
-    private void setUpErrorMessage(int stringResource) {
-        this.errorMessage.setValue(stringResource);
-    }
 
     private final class GetProductsSingleObserver extends DisposableSingleObserver<ProductsPagingEntity>{
 
         @Override
         public void onSuccess(ProductsPagingEntity productsPagingEntity) {
+            ProductsListViewModel.this.errorMessage.setValue(null);
+            ProductsListViewModel.this.loading.setValue(Boolean.FALSE);
             ProductsListViewModel.this.setProductListModel(
                     productListMapper.transformForList(productsPagingEntity)
             );
@@ -108,8 +104,9 @@ public class ProductsListViewModel extends BasePresenter  {
         @Override
         public void onError(Throwable e) {
             Log.e(TAG, "onError: " + e.getMessage() );
+            ProductsListViewModel.this.loading.setValue(Boolean.FALSE);
             int stringResource = handleApiError((ANError)e);
-            ProductsListViewModel.this.setUpErrorMessage(stringResource);
+            ProductsListViewModel.this.errorMessage.setValue(stringResource);
         }
     }
 

@@ -1,17 +1,21 @@
 package com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -24,6 +28,7 @@ import com.jordanortiz.products_search_ml.presentation.di.component.ViewComponen
 import com.jordanortiz.products_search_ml.presentation.screen.activities.MainActivity;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.product_detail.ProductDetailFragment;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ListPagingModel;
+import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductListModel;
 import com.jordanortiz.products_search_ml.presentation.screen.fragments.products_list.model.ProductModel;
 
 import java.util.List;
@@ -31,7 +36,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A fragment representing a list of Items.
@@ -42,6 +46,24 @@ public class ProductsListFragment extends BaseFragment implements
     public static final String TAG = ProductsListFragment.class.getSimpleName();
     private static final String CATEGORY = "category";
 
+    @BindView(R.id.loading)
+    ProgressBar loading;
+
+    @BindView(R.id.informative_view_container)
+    LinearLayoutCompat informativeViewContainer;
+    @BindView(R.id.informative_img)
+    ImageView ivInformativeImg;
+    @BindView(R.id.informative_title)
+    TextView tvInformativeTitle;
+    @BindView(R.id.informative_suggestion)
+    TextView tvInformativeSuggestion;
+    @BindView(R.id.btn_retry)
+    Button btnRetry;
+
+    @BindView(R.id.product_list_container)
+    RelativeLayout productListContainer;
+    @BindView(R.id.list_paging)
+    TextView tvListPaging;
     @BindView(R.id.rv_products)
     RecyclerView rvProducts;
 
@@ -74,7 +96,6 @@ public class ProductsListFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         if(getArguments() != null){
             mProductsCategory = getArguments().getString(CATEGORY);
-            Log.e(TAG, "onCreate: category selected -> " + mProductsCategory );
         }
 
     }
@@ -101,23 +122,25 @@ public class ProductsListFragment extends BaseFragment implements
         // Create menu
         setHasOptionsMenu(true);
 
-        Log.e(TAG, "onActivityCreated: ");
     }
 
     private void subscribeToModel(ProductsListViewModel viewModel) {
-        viewModel.getProductList().observe(this, new Observer<List<ProductModel>>() {
+        viewModel.getProductList().observe(this, new Observer<ProductListModel>() {
             @Override
-            public void onChanged(List<ProductModel> productListModel) {
-                if(productListModel.size() > 0)
-                    showProductList(productListModel);
-//                TODO add else showProductListEmpty()
+            public void onChanged(ProductListModel productListModel) {
+                if(productListModel.getProductList().size() > 0){
+                    setUpProductList(productListModel.getProductList());
+                }else {
+                    setUpProductListEmpty();
+                }
+                setUpListPaging(productListModel.getPaging());
             }
         });
 
-        viewModel.getListPaging().observe(this, new Observer<ListPagingModel>() {
+        viewModel.getLoading().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(ListPagingModel listPagingModel) {
-                Log.e(TAG, "onChanged: ListPagingModel -> " + listPagingModel.toString() );
+            public void onChanged(Boolean isShow) {
+                setUpLoadingStatus(isShow);
             }
         });
 
@@ -129,6 +152,7 @@ public class ProductsListFragment extends BaseFragment implements
             }
         });
     }
+
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate menu
@@ -167,7 +191,44 @@ public class ProductsListFragment extends BaseFragment implements
         );
     }
 
-    private void showProductList(List<ProductModel> productList) {
+    private void setUpLoadingStatus(Boolean isShow) {
+        if (isShow) {
+            loading.setVisibility(View.VISIBLE);
+            productListContainer.setVisibility(View.GONE);
+            informativeViewContainer.setVisibility(View.GONE);
+        }
+        else
+            loading.setVisibility(View.GONE);
+    }
+
+
+    private void setUpProductList(List<ProductModel> productList) {
+        productListContainer.setVisibility(View.VISIBLE);
+        informativeViewContainer.setVisibility(View.GONE);
         mRecyclerViewAdapter.addItems(productList);
+    }
+
+    private void setUpProductListEmpty() {
+        productListContainer.setVisibility(View.GONE);
+        informativeViewContainer.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.GONE);
+        setUpInformativeView(
+                "No encontramos publicaciones",
+                "Revisa que la palabra esté bien escrita.",
+                getBaseActivity().getResources().getDrawable(R.drawable.search_cloud)
+        );
+    }
+
+    private void setUpListPaging(ListPagingModel listPaging) {
+        if (listPaging.getTotal() > 0){
+            String paging = listPaging.getTotal() + " resultados ";
+            tvListPaging.setText(paging);
+        }
+    }
+
+    private void setUpInformativeView(String title, String suggestion, Drawable img) {
+        ivInformativeImg.setImageDrawable(img);
+        tvInformativeTitle.setText(title);
+        tvInformativeSuggestion.setText(suggestion);
     }
 }

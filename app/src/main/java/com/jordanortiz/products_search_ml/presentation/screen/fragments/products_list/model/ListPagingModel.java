@@ -4,10 +4,12 @@ public class ListPagingModel {
 
     private Integer total;
     private Integer primaryResults;
+    private Integer limit;
 
-    public ListPagingModel(Integer total, Integer primaryResults) {
+    public ListPagingModel(Integer total, Integer primaryResults, Integer limit) {
         this.total = total;
         this.primaryResults = primaryResults;
+        this.limit = limit;
     }
 
     public Integer getTotal() {
@@ -24,5 +26,13 @@ public class ListPagingModel {
 
     public void setPrimaryResults(Integer primaryResults) {
         this.primaryResults = primaryResults;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 }
