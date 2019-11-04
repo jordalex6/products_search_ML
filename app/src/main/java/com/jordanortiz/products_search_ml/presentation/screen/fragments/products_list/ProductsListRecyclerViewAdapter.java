@@ -51,12 +51,15 @@ public class ProductsListRecyclerViewAdapter extends
         holder.mItemPrice.setText(String.format("$ %s", mItem.getPrice()));
 //        setup product installments
         if(mItem.getProductInstallments() != null){
+            Log.e("Adapter", "onBindViewHolder: " + "rate -> " + mItem.getProductInstallments().getRate() );
             if(mItem.getProductInstallments().getRate() == 0){
+                Log.e("Adapter", "onBindViewHolder: if -> " + mItem.getTitle());
                 holder.mItemInstallments.setText(String.format(
                         "Hasta %s cuotas sin interés",
                         mItem.getProductInstallments().getQuantity())
                 );
             }else{
+                Log.e("Adapter", "onBindViewHolder: else -> " + mItem.getTitle() );
                 holder.mItemInstallments.setVisibility(View.GONE);
             }
         }

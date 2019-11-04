@@ -178,7 +178,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void setUpInstallmentsView(String installment) {
         tvInstallments.setText(installment);
-        tvInstallments.setVisibility(View.VISIBLE);
+        llInstallments.setVisibility(View.VISIBLE);
     }
 
     private void setUpInstallmentsViewStyle(boolean hasInterest) {
