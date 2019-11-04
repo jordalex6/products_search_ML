@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -99,7 +100,8 @@ public class ProductsListFragment extends BaseFragment implements
         if(getArguments() != null){
             mProductsCategory = getArguments().getString(CATEGORY);
         }
-
+        // Create menu
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -121,9 +123,6 @@ public class ProductsListFragment extends BaseFragment implements
         rvProducts.setLayoutManager(mLayoutManager);
 
         subscribeToModel(mViewModel);
-        // Create menu
-        setHasOptionsMenu(true);
-
     }
 
     private void subscribeToModel(ProductsListViewModel viewModel) {
@@ -136,6 +135,13 @@ public class ProductsListFragment extends BaseFragment implements
                     setUpProductListEmpty();
                 }
                 setUpListPaging(productListModel.getPaging());
+            }
+        });
+
+        viewModel.getCurrentQuery().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentQuery) {
+                mProductsQuery = currentQuery;
             }
         });
 
@@ -164,24 +170,34 @@ public class ProductsListFragment extends BaseFragment implements
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate menu
-        ((MainActivity)getActivity()).getMenuInflater().inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
+        SearchView searchView = (SearchView) searchMenuItem
                 .getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Buscar productos");
         searchView.setSubmitButtonEnabled(Boolean.TRUE);
 
+        if(mProductsQuery != null) {
+            searchMenuItem.expandActionView();
+            searchView.setQuery(mProductsQuery, false);
+            searchView.clearFocus();
+        }
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mProductsQuery = query;
                 mProductsCategory = null;
+                mProductsQuery = query;
+                mViewModel.setCurrentQuery(query);
+
                 mViewModel.loadProductList(query);
                 return false;
             }
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
+                mViewModel.setCurrentQuery(query);
                 return false;
             }
         });

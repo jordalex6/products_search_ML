@@ -24,6 +24,7 @@ public class ProductsListViewModel extends BasePresenter  {
     private static final String TAG = ProductsListViewModel.class.getSimpleName();
 
     private MutableLiveData<ProductListModel> productList;
+    private MutableLiveData<String> currentQuery;
     private MutableLiveData<Boolean> loading;
     private MutableLiveData<Boolean> networkStatus;
     private MutableLiveData<Integer> errorMessage;
@@ -45,14 +46,15 @@ public class ProductsListViewModel extends BasePresenter  {
         this.productListMapper = productListMapper;
         this.networkManager = networkManager;
 
-        productList = new MutableLiveData<>();
+        currentQuery = new MutableLiveData<>();
         errorMessage =  new MutableLiveData<>();
         networkStatus = new MutableLiveData<>();
         loading =  new MutableLiveData<>();
     }
 
     void onViewPrepared(String categoryId){
-        if(productList != null){
+        if(productList == null){
+            productList = new MutableLiveData<>();
             loadProductListByCategory(categoryId);
         }
     }
@@ -65,7 +67,7 @@ public class ProductsListViewModel extends BasePresenter  {
         super.onCleared();
     }
 
-    public void loadProductListByCategory(String categoryId) {
+    void loadProductListByCategory(String categoryId) {
         if(networkManager.isNetworkAvailable()) {
             loading.setValue(Boolean.TRUE);
             networkStatus.setValue(Boolean.TRUE);
@@ -93,14 +95,14 @@ public class ProductsListViewModel extends BasePresenter  {
     }
 
     LiveData<ProductListModel> getProductList() { return productList; }
+    private void setProductList(ProductListModel productListModel){
+        this.productList.setValue(productListModel);
+    }
+    LiveData<String> getCurrentQuery() { return currentQuery; }
+    void setCurrentQuery(String query) { currentQuery.setValue(query); }
     LiveData<Boolean> getLoading(){ return loading; }
     LiveData<Boolean> getNetworkStatus(){ return networkStatus; }
     LiveData<Integer> getErrorMessage(){ return errorMessage; }
-
-
-    private void setProductListModel(ProductListModel productListModel){
-        this.productList.setValue(productListModel);
-    }
 
 
     private final class GetProductsSingleObserver extends DisposableSingleObserver<ProductsPagingEntity>{
@@ -109,7 +111,7 @@ public class ProductsListViewModel extends BasePresenter  {
         public void onSuccess(ProductsPagingEntity productsPagingEntity) {
             ProductsListViewModel.this.errorMessage.setValue(null);
             ProductsListViewModel.this.loading.setValue(Boolean.FALSE);
-            ProductsListViewModel.this.setProductListModel(
+            ProductsListViewModel.this.setProductList(
                     productListMapper.transformForList(productsPagingEntity)
             );
         }

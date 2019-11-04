@@ -95,8 +95,7 @@
             android:layout_height="wrap_content"
             android:text="Reintentar"
             android:textSize="16sp"
-            android:textColor="@color/colorAccent"
-            app:backgroundTint="@android:color/transparent"
+            android:textColor="@color/secondaryLightColor"
             android:layout_marginTop="30dp"
             android:textAllCaps="false"/>
 
