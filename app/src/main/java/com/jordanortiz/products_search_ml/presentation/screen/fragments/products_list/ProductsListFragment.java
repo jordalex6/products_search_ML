@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SearchView;
@@ -100,8 +101,15 @@ public class ProductsListFragment extends BaseFragment implements
         if(getArguments() != null){
             mProductsCategory = getArguments().getString(CATEGORY);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // Create menu
         setHasOptionsMenu(true);
+        this.setupTitleToolbar(getString(R.string.title_toolbar_product_list));
+        this.setupDrawerEnabled(Boolean.FALSE);
     }
 
     @Override

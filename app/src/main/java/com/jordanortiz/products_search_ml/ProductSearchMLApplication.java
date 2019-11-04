@@ -39,7 +39,7 @@ public class ProductSearchMLApplication extends Application {
         }
     }*/
 
-    private void initializeFastNetWork(){
+    private void initializeFastNetWork() {
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -53,7 +53,7 @@ public class ProductSearchMLApplication extends Application {
                     .build();
 
             AndroidNetworking.initialize(getApplicationContext(), okHttpClient);
-        }else {
+        } else {
             OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
@@ -61,15 +61,9 @@ public class ProductSearchMLApplication extends Application {
                     .build();
             AndroidNetworking.initialize(getApplicationContext(), okHttpClient);
         }
-
-        //AndroidNetworking.setParserFactory(new JacksonParserFactory());
-     /*   AndroidNetworking.initialize(getApplicationContext());
-        if (BuildConfig.DEBUG) {
-            AndroidNetworking.enableLogging(com.androidnetworking.interceptors.HttpLoggingInterceptor.Level.BODY);
-        }*/
     }
 
-/*    private void initializeFabric() {
+    /*private void initializeFabric() {
         Fabric.with(this, new Crashlytics());
     }*/
 

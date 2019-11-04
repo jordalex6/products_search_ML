@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,7 +24,6 @@ android {
 }
 
 ext {
-    supportLibraryVersion = '28.0.0'
     googleGson = '2.8.5'
     daggerVersion = '2.16'
     daggerAndroidVersion = '2.19'
@@ -34,7 +33,6 @@ ext {
     butterKnifeVersion = '10.1.0'
     glideVersion = '4.10.0'
     glideCompileVersion = '4.10.0'
-
 }
 
 dependencies {
@@ -44,6 +42,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     implementation "com.amitshekhar.android:rx2-android-networking:$rx2AndroidNetworking"
     implementation "com.amitshekhar.android:jackson-android-networking:$rx2AndroidNetworking"
@@ -76,12 +75,8 @@ dependencies {
     implementation 'com.pavelsikun:materialdesignicons:1.0'
     // Toast Custom
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-    // Calligrafy
-    implementation 'io.github.inflationx:calligraphy3:3.1.1'
-    implementation 'io.github.inflationx:viewpump:2.0.3'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 }

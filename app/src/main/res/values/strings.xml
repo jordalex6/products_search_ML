@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">ProductsSearchML</string>
+    <string name="app_name">ML Clon</string>
     <string name="msg_query_empty">Para continuar ingrese algún valor</string>
     <string name="text_free_shipping">Envío gratis</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="open_drawer">Drawer Open</string>
+    <string name="close_drawer">Drawer Close</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_product_info">Información del producto</string>
     <string name="str_category_computing">Computación</string>
@@ -12,4 +14,7 @@
     <string name="str_category_home_appliances">Electrodomésticos y Aires Ac.</string>
     <string name="str_category_camera">Cámaras y Accesorios</string>
     <string name="str_category_cars">Autos, Motos y Otros</string>
+    <string name="title_toolbar_home">Categorías populares</string>
+    <string name="title_toolbar_product_list">Listado de productos</string>
+    <string name="title_toolbar_product_detail">Detalle del producto</string>
 </resources>

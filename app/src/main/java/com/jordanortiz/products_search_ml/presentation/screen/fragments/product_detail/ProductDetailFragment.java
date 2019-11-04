@@ -3,6 +3,7 @@ package com.jordanortiz.products_search_ml.presentation.screen.fragments.product
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.Observer;
@@ -97,6 +98,14 @@ public class ProductDetailFragment extends BaseFragment {
         if (getArguments() != null) {
             mProductId = getArguments().getString(ARG_PRODUCT_ID);
         }
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.setupTitleToolbar(getString(R.string.title_toolbar_product_detail));
+        this.setupDrawerEnabled(Boolean.FALSE);
     }
 
     @Override
@@ -115,6 +124,7 @@ public class ProductDetailFragment extends BaseFragment {
         mViewModel = ViewModelProviders.of(this,factory).get(ProductDetailViewModel.class);
         mViewModel.onViewPrepared(mProductId);
 
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvAttributeList.setLayoutManager(mLayoutManager);
         rvAttributeList.setAdapter(mRecyclerViewAdapter);
 

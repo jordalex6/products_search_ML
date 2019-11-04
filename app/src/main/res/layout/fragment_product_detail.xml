@@ -192,12 +192,13 @@
                 android:text="@string/text_product_info"
                 android:textSize="@dimen/text_primary_product_detail"
                 android:textColor="@color/primaryTextColor"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_product_detail_attribute"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 tools:listitem="@layout/fragment_product_detail_attribute_item"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

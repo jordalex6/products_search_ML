@@ -2,7 +2,9 @@ package com.jordanortiz.products_search_ml.presentation.screen.fragments.home;
 
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,13 +48,15 @@ public class HomeFragment extends BaseFragment{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int layoutRes() {
+        return R.layout.fragment_home;
     }
 
     @Override
-    protected int layoutRes() {
-        return R.layout.fragment_home;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.setupTitleToolbar(getString(R.string.title_toolbar_home));
+        this.setupDrawerEnabled(Boolean.TRUE);
     }
 
     @Override

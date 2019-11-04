@@ -12,10 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:padding="10dp"
         >
 
         <androidx.cardview.widget.CardView
@@ -25,7 +22,7 @@
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
@@ -63,7 +60,7 @@
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
@@ -101,7 +98,7 @@
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
@@ -139,7 +136,7 @@
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
@@ -179,7 +176,7 @@
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
@@ -222,7 +219,7 @@
             android:layout_marginBottom="15dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
             card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="10dp"
+            card_view:cardElevation="5dp"
             >
 
             <RelativeLayout
